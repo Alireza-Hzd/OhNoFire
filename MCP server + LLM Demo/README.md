@@ -45,3 +45,4 @@ Send the prompt to OpenRouter (openrouter/free or specified model) with explicit
 
 Execute the burn pipeline tool against CDSE when requested by the model.
 
+## A PDF of the terminal log showing the output has also been provided.
