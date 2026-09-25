@@ -59,7 +59,7 @@ def _classify_severity(mean_dnbr: float) -> str:
     return DNBR_CLASS_LABELS[-1]
 
 
-def _load_period(catalog, bbox, start, end, cloud_threshold):
+def _load_period(catalog, bbox, start, end, cloud_threshold, min_valid_fraction=0.90):
     search = catalog.search(
         collections=["sentinel-2-l2a"],
         bbox=bbox,
@@ -80,7 +80,7 @@ def _load_period(catalog, bbox, start, end, cloud_threshold):
     ds_refl = (ds[refl_bands] / 10000.0).where(valid_mask)
 
     valid_frac = valid_mask.mean(dim=["x", "y"]).compute()
-    keep_times = valid_frac.where(valid_frac >= 0.6, drop=True).time.values
+    keep_times = valid_frac.where(valid_frac >= min_valid_fraction, drop=True).time.values
     ds_refl = ds_refl.sel(time=keep_times)
     num_times = ds_refl.sizes.get("time", 0)
 
@@ -108,9 +108,9 @@ def analyze_burn_severity(
     post_start: str,
     post_end: str,
     priority_min_area_ha: float = 0.5,
-    min_patch_area_m2: float = 1000,
-    cloud_threshold: int = 10,
-    output_dir: str = "mcp_outputs",
+    min_patch_area_m2: float = 2000,
+    min_valid_fraction: float = 0.90,
+    cloud_threshold: int = 10,    output_dir: str = "mcp_outputs",
 ) -> dict:
     """
     Run the full burn-severity pipeline for an arbitrary AOI and pre/post date range.
