@@ -1,6 +1,6 @@
 # OhNoFire — Terzigno Wildfire Burn Severity Analysis
 
-Earth Observation AI Engineer take-home assignment. Burn-severity mapping and decision-intelligence
+Burn-severity mapping and decision-intelligence
 analysis for the August 2025 wildfire in Vesuvius National Park (Terzigno, Mount Somma slope),
 using Sentinel-2 imagery, plus two bonus components: an MCP-wrapped agentic tool and a geospatial
 foundation model comparison.
